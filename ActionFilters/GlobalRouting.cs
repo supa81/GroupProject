@@ -22,7 +22,7 @@ namespace PawMates.ActionFilters
             {
                 if (_claimsPrincipal.IsInRole("Owner"))
                 {
-                    context.Result = new RedirectToActionResult("Index", "Owner", null);
+                    context.Result = new RedirectToActionResult("DogList", "Owner", null);
                 }
             }
         }

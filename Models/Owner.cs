@@ -11,7 +11,7 @@ namespace PawMates.Models
     public class Owner
     {
         [Key]
-        public int OwnerId { get; set; }
+        public int Id { get; set; }
         public string Username { get; set; }
         public string ZipCode { get; set; }
         public string PictureURL { get; set; }

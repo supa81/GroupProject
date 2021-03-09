@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using PawMates.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace PawMates.Controllers
 {
@@ -18,16 +20,17 @@ namespace PawMates.Controllers
             _context = context;
         }
         // GET: OwnerController
-        public IActionResult Index()
+        public IActionResult DogList()
         {
             var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
             if (owner == null)
             {
-                return RedirectToAction("Create");
+                 return RedirectToAction("Create");
             }
-            return View(owner);
+            var ownersDogs = _context.Dogs.Where(d => d.OwnerId == owner.Id).ToList();
+            return View(ownersDogs);
 
         }
 
@@ -40,22 +43,25 @@ namespace PawMates.Controllers
         // GET: OwnerController/Create
         public ActionResult Create()
         {
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
         // POST: OwnerController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Owner owner)
         {
-            try
+            if (ModelState.IsValid)
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                owner.IdentityUserId = userId;
+                _context.Add(owner);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", owner.IdentityUserId);
+            return View("DogList");
         }
 
         // GET: OwnerController/Edit/5
