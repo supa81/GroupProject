@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PawMates.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,33 +7,27 @@ using System.Threading.Tasks;
 
 namespace PawMates.Controllers
 {
-    public class OwnerController : Controller
+    public class DogController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        public OwnerController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-        // GET: OwnerController
+        // GET: DogController
         public ActionResult Index()
         {
-            var applicationdbcontext = _context.Owners.Include(o => o.OwnerId);
             return View();
         }
 
-        // GET: OwnerController/Details/5
+        // GET: DogController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: OwnerController/Create
+        // GET: DogController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: OwnerController/Create
+        // POST: DogController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -50,13 +42,13 @@ namespace PawMates.Controllers
             }
         }
 
-        // GET: OwnerController/Edit/5
+        // GET: DogController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: OwnerController/Edit/5
+        // POST: DogController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -71,13 +63,13 @@ namespace PawMates.Controllers
             }
         }
 
-        // GET: OwnerController/Delete/5
+        // GET: DogController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: OwnerController/Delete/5
+        // POST: DogController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

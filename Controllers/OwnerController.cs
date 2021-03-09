@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PawMates.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +9,9 @@ namespace PawMates.Controllers
 {
     public class OwnerController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        public OwnerController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
         // GET: OwnerController
         public ActionResult Index()
         {
-            var applicationdbcontext = _context.Owners.Include(o => o.OwnerId);
             return View();
         }
 
