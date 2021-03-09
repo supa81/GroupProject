@@ -5,6 +5,7 @@ using PawMates.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace PawMates.Controllers
@@ -17,10 +18,17 @@ namespace PawMates.Controllers
             _context = context;
         }
         // GET: OwnerController
-        public ActionResult Index()
+        public IActionResult Index()
         {
-            var applicationdbcontext = _context.Owners.Include(o => o.OwnerId);
-            return View();
+            var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
+            if (owner == null)
+            {
+                return RedirectToAction("Create");
+            }
+            return View(owner);
+
         }
 
         // GET: OwnerController/Details/5
