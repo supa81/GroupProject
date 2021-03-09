@@ -1,14 +1,24 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using PawMates.Data;
+using PawMates.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace PawMates.Controllers
 {
     public class DogController : Controller
     {
+        private readonly ApplicationDbContext _context;
+        public DogController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         // GET: DogController
         public ActionResult Index()
         {
@@ -22,45 +32,65 @@ namespace PawMates.Controllers
         }
 
         // GET: DogController/Create
-        public ActionResult Create()
+        public ActionResult AddNewDog()
         {
+
             return View();
         }
 
-        // POST: DogController/Create
+        // POST: DogController/Create 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult AddNewDog(Dog dog )
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
+            dog.OwnerId = owner.Id;
+            dog.Owner = owner;
+            _context.Dogs.Add(dog);
+            _context.SaveChanges();
+            return RedirectToAction("DogList", "Owner");
         }
 
         // GET: DogController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var dog = _context.Dogs.Find(id);
+
+            if (dog == null)
+            {
+
+                return NotFound();
+            }
+            return View(dog);
         }
 
         // POST: DogController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Dog dog)
         {
-            try
+            if (id != dog.DogId)
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            catch
+            else
             {
-                return View();
+                if (ModelState.IsValid)
+                {
+                    _context.Update(dog);
+                    _context.SaveChanges();
+                    return RedirectToAction("Home");
+                }
+
             }
+            return View(dog);
+            
         }
 
         // GET: DogController/Delete/5

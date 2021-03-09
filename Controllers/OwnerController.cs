@@ -58,10 +58,14 @@ namespace PawMates.Controllers
                 owner.IdentityUserId = userId;
                 _context.Add(owner);
                 _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("DogList");
             }
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", owner.IdentityUserId);
             return View("DogList");
+        }
+        public ActionResult NavigateToDogController()
+        {
+            return RedirectToAction("AddNewDog", "Dog");
         }
 
         // GET: OwnerController/Edit/5

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PawMates.Data;
 
 namespace PawMates.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210309204431_1")]
+    partial class _1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,8 +50,8 @@ namespace PawMates.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "86bc5f60-529e-4c3b-b452-bdf2d811bed2",
-                            ConcurrencyStamp = "0643d62c-a06b-4f5b-bdcb-a334e947116f",
+                            Id = "39db63f3-d78c-4218-9483-4bab8923b647",
+                            ConcurrencyStamp = "a6dc554c-26f6-4152-b1a4-c83e7b04f029",
                             Name = "Owner",
                             NormalizedName = "OWNER"
                         });
@@ -234,9 +236,6 @@ namespace PawMates.Migrations
                     b.Property<int?>("Age")
                         .HasColumnType("int");
 
-                    b.Property<string>("Bio")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Breed")
                         .HasColumnType("nvarchar(max)");
 
@@ -248,9 +247,6 @@ namespace PawMates.Migrations
 
                     b.Property<int>("OwnerId")
                         .HasColumnType("int");
-
-                    b.Property<string>("PictureUrl")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Temperment")
                         .HasColumnType("nvarchar(max)");

@@ -17,6 +17,8 @@ namespace PawMates.Models
         public string Gender { get; set; }
         public string? Breed { get; set; }
         public string? Temperment { get; set; }
+        public string Bio { get; set; }
+        public string PictureUrl { get; set; }
 
         [ForeignKey("OwnerId")]
         public int OwnerId { get; set; }
