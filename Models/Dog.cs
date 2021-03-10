@@ -19,7 +19,6 @@ namespace PawMates.Models
         public string? Temperment { get; set; }
         public string Bio { get; set; }
         public string PictureUrl { get; set; }
-        [NotMapped]
         public string ZipCode { get; set; }
 
         [ForeignKey("OwnerId")]

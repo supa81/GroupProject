@@ -29,6 +29,11 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+<<<<<<< HEAD
+=======
+[Ll]ogs/
+[Mm]igrations/
+>>>>>>> b243828ab3836ef419fec43ecaa0727444243002
 
 [Ll]ogs/
 [Mm]igrations/
