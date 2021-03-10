@@ -85,7 +85,7 @@ namespace PawMates.Controllers
                 {
                     _context.Update(dog);
                     _context.SaveChanges();
-                    return RedirectToAction("Home");
+                    return RedirectToAction("DogList", "Owner");
                 }
 
             }
@@ -94,19 +94,33 @@ namespace PawMates.Controllers
         }
 
         // GET: DogController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
-            return View();
+            if ( id == null)
+            {
+                return NotFound();
+            }
+            var dog = _context.Dogs.FirstOrDefault(d => d.DogId == id);
+           
+            if (dog == null)
+            {
+                return NotFound();
+            }
+            return View(dog);
         }
 
         // POST: DogController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var dog = _context.Dogs.Find(id);
+                _context.Dogs.Remove(dog);
+                _context.SaveChanges();
+                return RedirectToAction("DogList", "Owner");
+             
             }
             catch
             {
