@@ -33,6 +33,19 @@ namespace PawMates.Controllers
             return View(ownersDogs);
 
         }
+        public ActionResult PotentialDogMatches()
+        {
+            var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
+            if (owner == null)
+            {
+                return RedirectToAction("Create");
+            }
+            var otherDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
+            var matches = otherDogs.Where(d => d.Owner.ZipCode == owner.ZipCode).ToList();
+            return View(matches);
+        }
 
         // GET: OwnerController/Details/5
         public  ActionResult Details()
@@ -127,6 +140,12 @@ namespace PawMates.Controllers
                     ownerToEdit.SlackUserId = owner.SlackUserId;
                     ownerToEdit.PictureURL = owner.PictureURL;
                     _context.Update(ownerToEdit);
+                    var ownersDogs = _context.Dogs.Where(d => d.OwnerId == ownerToEdit.Id).ToList();
+                    foreach (var dog in ownersDogs)
+                    {
+                        dog.ZipCode = ownerToEdit.ZipCode;
+                        _context.Update(dog);
+                    }
                     _context.SaveChanges();
                     
                 }

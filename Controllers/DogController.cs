@@ -47,7 +47,7 @@ namespace PawMates.Controllers
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
             dog.OwnerId = owner.Id;
-            dog.Owner = owner;
+            dog.ZipCode = owner.ZipCode;
             _context.Dogs.Add(dog);
             _context.SaveChanges();
             return RedirectToAction("DogList", "Owner");
