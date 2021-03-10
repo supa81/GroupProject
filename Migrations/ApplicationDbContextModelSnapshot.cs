@@ -48,8 +48,8 @@ namespace PawMates.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b8f93ecd-d907-42eb-bc88-1fb46ca4f50c",
-                            ConcurrencyStamp = "1704c176-152d-4fc2-9994-5f93bd2a770d",
+                            Id = "5b01b675-52ee-4f6b-b162-2156b2b0c266",
+                            ConcurrencyStamp = "d227a780-3fa6-4aa0-b277-0b673651802a",
                             Name = "Owner",
                             NormalizedName = "OWNER"
                         });
