@@ -15,6 +15,12 @@ namespace PawMates.Models
         public string Username { get; set; }
         public string ZipCode { get; set; }
         public string PictureURL { get; set; }
+        public int? FilterAge { get; set; }
+        public int? FilterWeight { get; set; }
+        public string FilterGender { get; set; }
+        public string? FilterBreed { get; set; }
+        public string? FilterTemperment { get; set; }
+
         [ForeignKey("SlackUserID")]
         public string SlackUserId { get; set; }
 

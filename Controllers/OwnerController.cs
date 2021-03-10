@@ -33,19 +33,19 @@ namespace PawMates.Controllers
             return View(ownersDogs);
 
         }
-        public ActionResult PotentialDogMatches()
-        {
-            var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
-            if (owner == null)
-            {
-                return RedirectToAction("Create");
-            }
-            var otherDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
-            var matches = otherDogs.Where(d => d.ZipCode == owner.ZipCode).ToList();
-            return View(matches);
-        }
+        //public ActionResult PotentialDogMatches()
+        //{
+        //    var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
+        //    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
+        //    if (owner == null)
+        //    {
+        //        return RedirectToAction("Create");
+        //    }
+        //    var otherDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
+        //    var matches = otherDogs.Where(d => d.ZipCode == owner.ZipCode).ToList();
+        //    return View(matches);
+        //}
         //public ActionResult FilterByAgeGreaterThan(int input)
         //{
         //    var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
@@ -103,7 +103,7 @@ namespace PawMates.Controllers
         //    var weightFilter = matches.Where(d => d.Weight >= input).ToList();
         //    return View(weightFilter);
         //}
-        public ActionResult Filter(string genderInput, string tempermentInput, string breedInput, int? ageInput, int? weightInput)
+        public ActionResult PotentialDogMatches()
         {
             var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -114,27 +114,97 @@ namespace PawMates.Controllers
             }
             var otherDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
             var matches = otherDogs.Where(d => d.ZipCode == owner.ZipCode).ToList();
-            if(genderInput != null)
+            if(owner.FilterGender != null)
             {
-                matches = matches.Where(d => d.Gender == genderInput).ToList();
+                matches = matches.Where(d => d.Gender == owner.FilterGender).ToList();
             }
-            if (breedInput != null)
+            if (owner.FilterBreed != null)
             {
-                matches = matches.Where(d => d.Breed == breedInput).ToList();
+                matches = matches.Where(d => d.Breed == owner.FilterBreed).ToList();
             }
-            if(tempermentInput != null)
+            if(owner.FilterTemperment != null)
             {
-                matches = matches.Where(d => d.Temperment == tempermentInput).ToList();
+                matches = matches.Where(d => d.Temperment == owner.FilterTemperment).ToList();
             }
-            if(ageInput != null)
+            if(owner.FilterAge != null)
             {
-                matches = matches.Where(d => d.Age == ageInput).ToList();
+                matches = matches.Where(d => d.Age == owner.FilterAge).ToList();
             }
-            if (weightInput != null)
+            if (owner.FilterWeight != null)
             {
-                matches = matches.Where(d => d.Weight == weightInput).ToList();
+                matches = matches.Where(d => d.Weight == owner.FilterWeight).ToList();
             }
             return View(matches);
+        }
+        public ActionResult EditFilters(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var owner = _context.Owners.Find(id);
+
+            if (owner == null)
+            {
+
+                return NotFound();
+            }
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", owner.IdentityUserId);
+            return View(owner);
+        }
+
+        // POST: OwnerController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditFilters(int id, Owner owner)
+        {
+            if (id != owner.Id)
+            {
+                return NotFound();
+            }
+            else if (ModelState.IsValid)
+            {
+                try
+                {
+                    Owner ownerToEdit = _context.Owners.Find(id);
+                    ownerToEdit.FilterAge = owner.FilterAge;
+                    ownerToEdit.FilterBreed = owner.FilterBreed;
+                    ownerToEdit.FilterGender = owner.FilterGender;
+                    ownerToEdit.FilterTemperment = owner.FilterTemperment;
+                    ownerToEdit.FilterWeight = owner.FilterWeight;
+                    _context.Update(ownerToEdit);
+                    _context.SaveChanges();
+
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!OwnerExists(owner.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+
+                }
+
+                return RedirectToAction("PotentialDogMatches");
+            }
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", owner.IdentityUserId);
+            return View(owner);
+        }
+        public ActionResult FilterDetails()
+        {
+            var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var owner = _context.Owners.Where(o => o.IdentityUserId == userId).SingleOrDefault();
+            if (owner == null)
+            {
+                return NotFound();
+            }
+
+            return View(owner);
         }
         // GET: OwnerController/Details/5
         public  ActionResult Details()

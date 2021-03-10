@@ -1,0 +1,54 @@
+﻿@model PawMates.Models.Owner
+
+@{
+    ViewData["Title"] = "EditFilters";
+}
+
+<h1>EditFilters</h1>
+
+<h4>Owner</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditFilters">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="FilterAge" class="control-label"></label>
+                <input asp-for="FilterAge" class="form-control" />
+                <span asp-validation-for="FilterAge" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FilterWeight" class="control-label"></label>
+                <input asp-for="FilterWeight" class="form-control" />
+                <span asp-validation-for="FilterWeight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FilterGender" class="control-label"></label>
+                <input asp-for="FilterGender" class="form-control" />
+                <span asp-validation-for="FilterGender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FilterBreed" class="control-label"></label>
+                <input asp-for="FilterBreed" class="form-control" />
+                <span asp-validation-for="FilterBreed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FilterTemperment" class="control-label"></label>
+                <input asp-for="FilterTemperment" class="form-control" />
+                <span asp-validation-for="FilterTemperment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="PotentialDogMatches">Back to Matches</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
