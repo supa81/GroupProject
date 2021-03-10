@@ -10,7 +10,7 @@ using PawMates.Data;
 namespace PawMates.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210309204736_init")]
+    [Migration("20210310164017_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,8 +50,8 @@ namespace PawMates.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "00c0c0c6-b5b3-4d5d-ba1b-42b2cd6e0ecb",
-                            ConcurrencyStamp = "83d89603-890f-4a84-bcc1-e6354a2bdd6f",
+                            Id = "47025e8e-38d2-41eb-8e6e-8b21502a6011",
+                            ConcurrencyStamp = "da21e3a8-bdb1-462e-831a-e480db75a0d2",
                             Name = "Owner",
                             NormalizedName = "OWNER"
                         });
@@ -236,6 +236,9 @@ namespace PawMates.Migrations
                     b.Property<int?>("Age")
                         .HasColumnType("int");
 
+                    b.Property<string>("Bio")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Breed")
                         .HasColumnType("nvarchar(max)");
 
@@ -247,6 +250,9 @@ namespace PawMates.Migrations
 
                     b.Property<int>("OwnerId")
                         .HasColumnType("int");
+
+                    b.Property<string>("PictureUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Temperment")
                         .HasColumnType("nvarchar(max)");

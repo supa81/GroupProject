@@ -35,9 +35,17 @@ namespace PawMates.Controllers
         }
 
         // GET: OwnerController/Details/5
-        public ActionResult Details(int id)
+        public  ActionResult Details()
         {
-            return View();
+            var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var owner = _context.Owners.Where(o => o.IdentityUserId == userId).SingleOrDefault();
+            if (owner == null)
+            {
+                return NotFound();
+            }
+
+            return View(owner);
         }
         public ActionResult DogDetails(int? id)
         {
@@ -83,24 +91,100 @@ namespace PawMates.Controllers
         //}
 
         // GET: OwnerController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var owner = _context.Owners.Find(id);
+
+            if (owner == null)
+            {
+
+                return NotFound();
+            }
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", owner.IdentityUserId);
+            return View(owner);
         }
 
         // POST: OwnerController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Owner owner)
         {
-            try
+            if (id != owner.Id)
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            catch
+            else if (ModelState.IsValid)
             {
-                return View();
+                try
+                {
+                    Owner ownerToEdit = _context.Owners.Find(id);
+                    ownerToEdit.Username = owner.Username;
+                    ownerToEdit.ZipCode = owner.ZipCode;
+                    ownerToEdit.SlackUserId = owner.SlackUserId;
+                    ownerToEdit.PictureURL = owner.PictureURL;
+                    _context.Update(ownerToEdit);
+                    _context.SaveChanges();
+                    
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!OwnerExists(owner.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                    
+                }
+
+                return RedirectToAction("Details");
             }
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", owner.IdentityUserId);
+            return View(owner);
+        }
+        public ActionResult EditDog(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var dog = _context.Dogs.Find(id);
+
+            if (dog == null)
+            {
+
+                return NotFound();
+            }
+            return View(dog);
+        }
+
+        // POST: DogController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditDog(int id, Dog dog)
+        {
+            if (id != dog.DogId)
+            {
+                return NotFound();
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.Update(dog);
+                    _context.SaveChanges();
+                    return RedirectToAction("DogList", "Owner");
+                }
+
+            }
+            return View(dog);
+
         }
 
         // GET: OwnerController/Delete/5
@@ -155,6 +239,10 @@ namespace PawMates.Controllers
             {
                 return View();
             }
+        }
+        private bool OwnerExists(int id)
+        {
+            return _context.Owners.Any(o => o.Id == id);
         }
     }
 }

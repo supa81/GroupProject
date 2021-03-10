@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PawMates.Migrations
 {
-    public partial class _1 : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -187,6 +187,8 @@ namespace PawMates.Migrations
                     Gender = table.Column<string>(nullable: true),
                     Breed = table.Column<string>(nullable: true),
                     Temperment = table.Column<string>(nullable: true),
+                    Bio = table.Column<string>(nullable: true),
+                    PictureUrl = table.Column<string>(nullable: true),
                     OwnerId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -203,7 +205,7 @@ namespace PawMates.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "39db63f3-d78c-4218-9483-4bab8923b647", "a6dc554c-26f6-4152-b1a4-c83e7b04f029", "Owner", "OWNER" });
+                values: new object[] { "47025e8e-38d2-41eb-8e6e-8b21502a6011", "da21e3a8-bdb1-462e-831a-e480db75a0d2", "Owner", "OWNER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
