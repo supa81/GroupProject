@@ -94,7 +94,7 @@ namespace PawMates.Controllers
         }
 
         // GET: DogController/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult RemoveDog(int? id)
         {
             if ( id == null)
             {
@@ -112,7 +112,7 @@ namespace PawMates.Controllers
         // POST: DogController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id)
+        public ActionResult RemoveDog(int id)
         {
             try
             {
