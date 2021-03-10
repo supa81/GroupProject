@@ -43,7 +43,7 @@ namespace PawMates.Controllers
                 return RedirectToAction("Create");
             }
             var otherDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
-            var matches = otherDogs.Where(d => d.Owner.ZipCode == owner.ZipCode).ToList();
+            var matches = otherDogs.Where(d => d.ZipCode == owner.ZipCode).ToList();
             return View(matches);
         }
 
