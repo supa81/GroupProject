@@ -39,6 +39,15 @@ namespace PawMates.Controllers
         {
             return View();
         }
+        public ActionResult DogDetails(int? id)
+        {
+            var dog = _context.Dogs.Find(id);
+            if (dog == null)
+            {
+                return NotFound();
+            }
+            return View(dog);
+        }
 
         // GET: OwnerController/Create
         public ActionResult Create()
