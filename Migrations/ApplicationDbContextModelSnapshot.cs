@@ -48,8 +48,8 @@ namespace PawMates.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "47025e8e-38d2-41eb-8e6e-8b21502a6011",
-                            ConcurrencyStamp = "da21e3a8-bdb1-462e-831a-e480db75a0d2",
+                            Id = "b8f93ecd-d907-42eb-bc88-1fb46ca4f50c",
+                            ConcurrencyStamp = "1704c176-152d-4fc2-9994-5f93bd2a770d",
                             Name = "Owner",
                             NormalizedName = "OWNER"
                         });
@@ -258,9 +258,10 @@ namespace PawMates.Migrations
                     b.Property<int?>("Weight")
                         .HasColumnType("int");
 
-                    b.HasKey("DogId");
+                    b.Property<string>("ZipCode")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("OwnerId");
+                    b.HasKey("DogId");
 
                     b.ToTable("Dogs");
                 });
@@ -341,15 +342,6 @@ namespace PawMates.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PawMates.Models.Dog", b =>
-                {
-                    b.HasOne("PawMates.Models.Owner", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
