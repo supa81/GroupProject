@@ -4,10 +4,11 @@
     ViewData["Title"] = "DogList";
 }
 
-<h1>DogList</h1>
+<h1>Your Dogs</h1>
 
 <p>
     <a asp-action="NavigateToAddDog">Add New Dog</a>
+    <br />
     <a asp-action="Details">View Your Information</a>
 </p>
 <table class="table">
@@ -56,9 +57,9 @@
                 @Html.DisplayFor(modelItem => item.Temperment)
             </td>
             <td>
-                <a asp-action="EditDog" asp-route-id="@item.DogId">EditDog</a> |
-                <a asp-action="DogDetails" asp-route-id="@item.DogId">DogDetails</a> |
-                <a asp-action="RemoveDog" asp-route-id="@item.DogId">RemoveDog</a>
+                <a asp-action="Edit Dog" asp-route-id="@item.DogId">Edit Dog</a> |
+                <a asp-action="Dog Details" asp-route-id="@item.DogId">Dog Details</a> |
+                <a asp-action="Remove Dog" asp-route-id="@item.DogId">Remove Dog</a>
             </td>
         </tr>
 }

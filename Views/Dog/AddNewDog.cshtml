@@ -4,9 +4,9 @@
     ViewData["Title"] = "AddNewDog";
 }
 
-<h1>AddNewDog</h1>
+<h1>Add A New Dog Here</h1>
 
-<h4>Dog</h4>
+<h4>Please enter your dog's information here</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -19,7 +19,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="Age" class="control-label"></label>
-                <input asp-for="Age" class="form-control" />
+                <select class="form-control" id="Age" name="Age">
+                    <option value="Under 12 months">Under 12 months</option>
+                    <option value="1 to 3">1 to 3 years</option>
+                    <option value="4 to 7">4 to 7 years</option>
+                    <option value="8 to 10">8 to 10 years</option>
+                    <option value="11 to 15">11 to 15 years</option>
+                    <option value="16 or older">16 or older</option>
+                </select>
+                @*<input asp-for="Age" class="form-control" />*@
                 <span asp-validation-for="Age" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -29,11 +37,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Gender" class="control-label"></label>
-                <select class="form-control" id="Gender" name="Gender">
-                    <option value="Female">Female</option>
-                    <option value="Male">Male</option>
-                </select>
-                <span asp-validation-for="Gender" class="text-danger"></span>
+                        <select class="form-control" id="Gender" name="Gender">
+                         <option value="None">Select Gender</option>
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
+                    </select>
+                    <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Breed" class="control-label"></label>
@@ -42,7 +51,14 @@
             </div>
             <div class="form-group">
                 <label asp-for="Temperment" class="control-label"></label>
-                <input asp-for="Temperment" class="form-control" />
+                <select class="form-control" id="Temperment" name="Temperment">
+                    <option value="None">Select Temperament</option>
+                    <option value="Assertive">Assertive</option>
+                    <option value="Friendly">Friendly</option>
+                    <option value="Calm">Calm</option>
+                    <option value="Shy">Shy</option>
+                </select>
+                @*<input asp-for="Temperment" class="form-control" />*@
                 <span asp-validation-for="Temperment" class="text-danger"></span>
             </div>
             <div class="form-group">
