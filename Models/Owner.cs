@@ -13,6 +13,9 @@ namespace PawMates.Models
         [Key]
         public int Id { get; set; }
         public string Username { get; set; }
+        public string State { get; set; }
+        [Display(Name = "Zip Code")]
+        [StringLength(10, MinimumLength = 5)]
         public string ZipCode { get; set; }
         public string PictureURL { get; set; }
         public int? FilterAge { get; set; }
