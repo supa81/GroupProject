@@ -12,8 +12,11 @@ namespace PawMates.Models
     {
         [Key]
         public int Id { get; set; }
-        public string Username { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        [Required]
         public string State { get; set; }
+        [Required]
         [Display(Name = "Zip Code")]
         [StringLength(10, MinimumLength = 5)]
         public string ZipCode { get; set; }
@@ -23,6 +26,8 @@ namespace PawMates.Models
         public string FilterGender { get; set; }
         public string? FilterBreed { get; set; }
         public string? FilterTemperment { get; set; }
+        public double? OwnerLatitude { get; set; }
+        public double? OwnerLongitude { get; set; }
 
         [ForeignKey("SlackUserID")]
         public string SlackUserId { get; set; }
