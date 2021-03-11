@@ -296,7 +296,7 @@ namespace PawMates.Controllers
                     Owner ownerToEdit = _context.Owners.Find(id);
                     ownerToEdit.Username = owner.Username;
                     ownerToEdit.ZipCode = owner.ZipCode;
-                    ownerToEdit.SlackUserId = owner.SlackUserId;
+                    //ownerToEdit.SlackUserId = owner.SlackUserId;
                     ownerToEdit.PictureURL = owner.PictureURL;
                     _context.Update(ownerToEdit);
                     var ownersDogs = _context.Dogs.Where(d => d.OwnerId == ownerToEdit.Id).ToList();

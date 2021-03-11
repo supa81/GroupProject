@@ -24,8 +24,8 @@ namespace PawMates.Models
         public string? FilterBreed { get; set; }
         public string? FilterTemperment { get; set; }
 
-        [ForeignKey("SlackUserID")]
-        public string SlackUserId { get; set; }
+        //[ForeignKey("SlackUserID")]
+        //public string SlackUserId { get; set; }
 
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }

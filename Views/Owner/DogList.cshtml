@@ -7,9 +7,9 @@
 <h1>Your Dogs</h1>
 
 <p>
-    <a asp-action="NavigateToAddDog">Add New Dog</a>
+    <a asp-action="NavigateToAddDog">Add A New Dog</a>
     <br />
-    <a asp-action="Details">View Your Information</a>
+    <a asp-action="Details">View Your Personal Information</a>
 </p>
 <table class="table">
     <thead>
@@ -57,8 +57,8 @@
                 @Html.DisplayFor(modelItem => item.Temperment)
             </td>
             <td>
-                <a asp-action="Edit Dog" asp-route-id="@item.DogId">Edit Dog</a> |
-                <a asp-action="Dog Details" asp-route-id="@item.DogId">Dog Details</a> |
+                <a asp-action="Edit Dog" asp-route-id="@item.DogId">Edit Dog Info</a> |
+                <a asp-action="Dog Details" asp-route-id="@item.DogId">This Dog's Details</a> |
                 <a asp-action="Remove Dog" asp-route-id="@item.DogId">Remove Dog</a>
             </td>
         </tr>
