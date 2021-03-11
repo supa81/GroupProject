@@ -127,5 +127,9 @@ namespace PawMates.Controllers
                 return View();
             }
         }
+        public ActionResult NavigateToDogList()
+        {
+            return RedirectToAction("DogList", "Owner");
+        }
     }
 }
