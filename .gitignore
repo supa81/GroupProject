@@ -29,14 +29,9 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
-<<<<<<< HEAD
-=======
 [Ll]ogs/
 [Mm]igrations/
->>>>>>> b243828ab3836ef419fec43ecaa0727444243002
 
-[Ll]ogs/
-[Mm]igrations/
 # Visual Studio 2015/2017 cache/options directory
 .vs/
 # Uncomment if you have tasks that create the project's static files in wwwroot
@@ -354,3 +349,6 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+APIKeys.cs
+

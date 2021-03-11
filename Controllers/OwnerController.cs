@@ -9,15 +9,18 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using PawMates.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using PawMates.Services;
 
 namespace PawMates.Controllers
 {
     public class OwnerController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public OwnerController(ApplicationDbContext context)
+        private readonly GeocodingService _geocodingService;
+        public OwnerController(ApplicationDbContext context, GeocodingService geocodingService)
         {
             _context = context;
+            _geocodingService = geocodingService;
         }
         // GET: OwnerController
         public IActionResult DogList()
@@ -239,12 +242,14 @@ namespace PawMates.Controllers
         // POST: OwnerController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Owner owner)
+        public async Task<ActionResult> Create(Owner owner)
         {
             if (ModelState.IsValid)
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 owner.IdentityUserId = userId;
+
+                var ownerWithLatitudeLongitude = await _geocodingService.GetGeocoding(owner);
                 _context.Add(owner);
                 _context.SaveChanges();
                 return RedirectToAction("DogList");
@@ -294,7 +299,8 @@ namespace PawMates.Controllers
                 try
                 {
                     Owner ownerToEdit = _context.Owners.Find(id);
-                    ownerToEdit.Username = owner.Username;
+                    ownerToEdit.FirstName = owner.FirstName;
+                    ownerToEdit.LastName = owner.LastName;
                     ownerToEdit.ZipCode = owner.ZipCode;
                     //ownerToEdit.SlackUserId = owner.SlackUserId;
                     ownerToEdit.PictureURL = owner.PictureURL;
