@@ -108,7 +108,7 @@ namespace PawMates.Controllers
         //    var weightFilter = matches.Where(d => d.Weight >= input).ToList();
         //    return View(weightFilter);
         //}
-        public async Task<IActionResult> PotentialDogMatches()
+
         public IActionResult YourLikedDogs(int? id)
         {
             var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
@@ -138,8 +138,8 @@ namespace PawMates.Controllers
             }
             return View(likedDogs);
         }
-      
-        public ActionResult PotentialDogMatches()
+
+        public async Task<IActionResult> PotentialDogMatches()
         {
             var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
