@@ -250,7 +250,7 @@ namespace PawMates.Controllers
                 owner.IdentityUserId = userId;
 
                 var ownerWithLatitudeLongitude = await _geocodingService.GetGeocoding(owner);
-                _context.Add(owner);
+                _context.Add(ownerWithLatitudeLongitude);
                 _context.SaveChanges();
                 return RedirectToAction("DogList");
             }
@@ -288,7 +288,7 @@ namespace PawMates.Controllers
         // POST: OwnerController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Owner owner)
+        public async Task<ActionResult> Edit(int id, Owner owner)
         {
             if (id != owner.Id)
             {
@@ -298,12 +298,15 @@ namespace PawMates.Controllers
             {
                 try
                 {
+                    await _geocodingService.GetGeocoding(owner);
                     Owner ownerToEdit = _context.Owners.Find(id);
                     ownerToEdit.FirstName = owner.FirstName;
                     ownerToEdit.LastName = owner.LastName;
+                    ownerToEdit.State = owner.State;
                     ownerToEdit.ZipCode = owner.ZipCode;
-                    //ownerToEdit.SlackUserId = owner.SlackUserId;
                     ownerToEdit.PictureURL = owner.PictureURL;
+                    ownerToEdit.OwnerLatitude = owner.OwnerLatitude;
+                    ownerToEdit.OwnerLongitude = owner.OwnerLongitude;
                     _context.Update(ownerToEdit);
                     var ownersDogs = _context.Dogs.Where(d => d.OwnerId == ownerToEdit.Id).ToList();
                     foreach (var dog in ownersDogs)

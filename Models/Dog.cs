@@ -23,5 +23,6 @@ namespace PawMates.Models
 
         [ForeignKey("OwnerId")]
         public int OwnerId { get; set; }
+        public Owner Owner { get; set; }
     }
 }
