@@ -18,7 +18,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-
 namespace PawMates
 {
     public class Startup
@@ -44,7 +43,7 @@ namespace PawMates
             {
                 config.Filters.Add(typeof(GlobalRouting));
             });
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddTransient<GeocodingService>();
             services.AddSignalR();
