@@ -48,6 +48,8 @@ namespace PawMates.Controllers
             var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
             dog.OwnerId = owner.Id;
             dog.ZipCode = owner.ZipCode;
+            dog.OwnerLat = owner.OwnerLatitude;
+            dog.OwnerLng = owner.OwnerLongitude;
             _context.Dogs.Add(dog);
             _context.SaveChanges();
             return RedirectToAction("DogList", "Owner");

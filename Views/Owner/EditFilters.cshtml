@@ -39,6 +39,18 @@
                 <span asp-validation-for="FilterTemperment" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="FilterDistance" class="control-label"></label>
+                <select class="form-control" id="FilterDistance" name="FilterDistance">
+                    <option value=10>Within 10 miles</option>
+                    <option value=20>Within 20 miles</option>
+                    <option value=30>Within 30 miles</option>
+                    <option value=40>Within 40 miles</option>
+                    <option value=50>Within 50 miles</option>
+                    <option value=1000000>50+ miles</option>
+                </select>
+                <span asp-validation-for="FilterDistance" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
