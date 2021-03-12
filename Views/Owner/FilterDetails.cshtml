@@ -10,34 +10,34 @@
     <h4>Owner</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FilterAge)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FilterAge)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FilterWeight)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FilterWeight)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FilterGender)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FilterGender)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FilterBreed)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FilterBreed)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FilterTemperment)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FilterTemperment)
         </dd>
     </dl>
@@ -45,4 +45,30 @@
 <div>
     <a asp-action="EditFilters" asp-route-id="@Model.Id">Edit Filters</a> |
     <a asp-action="PotentialDogMatches">Back to Matches</a>
+</div>
+<h2>Your Current Match Radius</h2>
+<style>
+    #map {
+        height: 400px;
+        width: 700px;
+    }
+</style>
+<div class="row">
+    <div id="map"></div>
+    <script>
+        var map;
+        var marker;
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: @Model.OwnerLatitude, lng: @Model.OwnerLongitude},
+                zoom: 8
+            });
+            marker = new google.maps.Marker({
+                position: { lat: @Model.OwnerLatitude, lng: @Model.OwnerLongitude},
+                map: map
+            });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=@ViewBag.APIKeys&callback=initMap"
+            async defer></script>
 </div>
