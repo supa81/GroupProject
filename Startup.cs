@@ -10,12 +10,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PawMates.ActionFilters;
 using PawMates.Data;
+using PawMates.Hubs;
 using PawMates.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+
 
 namespace PawMates
 {
@@ -45,6 +47,7 @@ namespace PawMates
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.AddTransient<GeocodingService>();
+            services.AddSignalR();
 
         }
 
@@ -76,6 +79,7 @@ namespace PawMates
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapHub<ChatHub>("/chatHub");
             });
         }
     }
