@@ -12,7 +12,9 @@ namespace PawMates.Models
     {
         [Key]
         public int Id { get; set; }
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
         [Required]
         public string State { get; set; }
@@ -20,11 +22,17 @@ namespace PawMates.Models
         [Display(Name = "Zip Code")]
         [StringLength(10, MinimumLength = 5)]
         public string ZipCode { get; set; }
+        [Display(Name = "Picture URL")]
         public string PictureURL { get; set; }
+        [Display(Name = "Filter Age")]
         public int? FilterAge { get; set; }
+        [Display(Name = "Filter Weight")]
         public int? FilterWeight { get; set; }
+        [Display(Name = "Filter Gender")]
         public string FilterGender { get; set; }
+        [Display(Name = "Filter Breed")]
         public string? FilterBreed { get; set; }
+        [Display(Name = "Filter Temperment")]
         public string? FilterTemperment { get; set; }
         public double? OwnerLatitude { get; set; }
         public double? OwnerLongitude { get; set; }
