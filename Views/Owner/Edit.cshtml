@@ -34,9 +34,13 @@
                 <span asp-validation-for="ZipCode" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PictureURL" class="control-label"></label>
-                <input asp-for="PictureURL" class="form-control" />
-                <span asp-validation-for="PictureURL" class="text-danger"></span>
+                <p class="input-file-wrapper">
+                    <label for="upload">Upload your photo</label>
+                    <input type="file" name="" id="upload">
+                </p>
+                @*<label asp-for="PictureURL" class="control-label"></label>
+        <input asp-for="PictureURL" class="form-control" />
+        <span asp-validation-for="PictureURL" class="text-danger"></span*@>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
