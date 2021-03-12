@@ -175,6 +175,7 @@ namespace PawMates.Controllers
                     ownerToEdit.FilterGender = owner.FilterGender;
                     ownerToEdit.FilterTemperment = owner.FilterTemperment;
                     ownerToEdit.FilterWeight = owner.FilterWeight;
+                    ownerToEdit.FilterDistance = owner.FilterDistance;
                     _context.Update(ownerToEdit);
                     _context.SaveChanges();
 
@@ -311,6 +312,8 @@ namespace PawMates.Controllers
                     var ownersDogs = _context.Dogs.Where(d => d.OwnerId == ownerToEdit.Id).ToList();
                     foreach (var dog in ownersDogs)
                     {
+                        dog.OwnerLat = ownerToEdit.OwnerLatitude;
+                        dog.OwnerLng = ownerToEdit.OwnerLatitude;
                         dog.ZipCode = ownerToEdit.ZipCode;
                         _context.Update(dog);
                     }
