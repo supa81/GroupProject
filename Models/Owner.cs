@@ -36,9 +36,8 @@ namespace PawMates.Models
         public string? FilterTemperment { get; set; }
         public double? OwnerLatitude { get; set; }
         public double? OwnerLongitude { get; set; }
+       
 
-        //[ForeignKey("SlackUserID")]
-        //public string SlackUserId { get; set; }
 
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }

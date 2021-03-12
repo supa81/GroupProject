@@ -22,7 +22,7 @@ namespace PawMates.Services
 
         public string GetGeocodingURL(Owner owner)
         {
-            return $"https://maps.googleapis.com/maps/api/geocode/json?address={owner.State}+{owner.ZipCode}+&key=" + APIKeys.GOOGLE_API_KEY;
+            return $"https://maps.googleapis.com/maps/api/geocode/json?address={owner.State}+{owner.ZipCode}+&key=" + APIKeys.Google_API_KEY;
         }
 
         public async Task<Owner> GetGeocoding(Owner owner)

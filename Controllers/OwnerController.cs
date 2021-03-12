@@ -36,76 +36,36 @@ namespace PawMates.Controllers
             return View(ownersDogs);
 
         }
-        //public ActionResult PotentialDogMatches()
-        //{
-        //    var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
-        //    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
-        //    if (owner == null)
-        //    {
-        //        return RedirectToAction("Create");
-        //    }
-        //    var otherDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
-        //    var matches = otherDogs.Where(d => d.ZipCode == owner.ZipCode).ToList();
-        //    return View(matches);
-        //}
-        //public ActionResult FilterByAgeGreaterThan(int input)
-        //{
-        //    var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
-        //    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
-        //    if (owner == null)
-        //    {
-        //        return RedirectToAction("Create");
-        //    }
-        //    var otherDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
-        //    var matches = otherDogs.Where(d => d.ZipCode == owner.ZipCode).ToList();
-        //    var ageFilter = matches.Where(d => d.Age >= input).ToList();
-        //    return View(ageFilter);
-        //}
-        //public ActionResult FilterByAgeLessThan(int input)
-        //{
-        //    var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
-        //    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
-        //    if (owner == null)
-        //    {
-        //        return RedirectToAction("Create");
-        //    }
-        //    var otherDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
-        //    var matches = otherDogs.Where(d => d.ZipCode == owner.ZipCode).ToList();
-        //    var ageFilter = matches.Where(d => d.Age <= input).ToList();
-        //    return View(ageFilter);
-        //}
-        //public ActionResult FilterByWeightLessThan(int input)
-        //{
-        //    var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
-        //    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
-        //    if (owner == null)
-        //    {
-        //        return RedirectToAction("Create");
-        //    }
-        //    var otherDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
-        //    var matches = otherDogs.Where(d => d.ZipCode == owner.ZipCode).ToList();
-        //    var weightFilter = matches.Where(d => d.Weight <= input).ToList();
-        //    return View(weightFilter);
-        //}
-
-        //public ActionResult FilterByWeightGreaterThan(int input)
-        //{
-        //    var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
-        //    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
-        //    if (owner == null)
-        //    {
-        //        return RedirectToAction("Create");
-        //    }
-        //    var otherDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
-        //    var matches = otherDogs.Where(d => d.ZipCode == owner.ZipCode).ToList();
-        //    var weightFilter = matches.Where(d => d.Weight >= input).ToList();
-        //    return View(weightFilter);
-        //}
+        public IActionResult YourLikedDogs(int? id)
+        {
+            var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
+            var ownerDog = _context.Dogs.Find(id);
+            var likedDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
+            if (ownerDog.PotentialMatches != null )
+            {
+                likedDogs = likedDogs.Where(d => d.DogId == ownerDog.PotentialMatches).ToList();
+            }
+            if (ownerDog.PotentialMatches2 != null)
+            {
+                likedDogs = likedDogs.Where(d => d.DogId == ownerDog.PotentialMatches2).ToList();
+            }
+            if (ownerDog.PotentialMatches3 != null)
+            {
+                likedDogs = likedDogs.Where(d => d.DogId == ownerDog.PotentialMatches3).ToList();
+            }
+            if (ownerDog.PotentialMatches4 != null)
+            {
+               likedDogs = likedDogs.Where(d => d.DogId == ownerDog.PotentialMatches4).ToList();
+            }
+            if (ownerDog.PotentialMatches5 != null)
+            {
+                likedDogs = likedDogs.Where(d => d.DogId == ownerDog.PotentialMatches5).ToList();
+            }
+            return View(likedDogs);
+        }
+      
         public ActionResult PotentialDogMatches()
         {
             var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
@@ -138,7 +98,41 @@ namespace PawMates.Controllers
                 matches = matches.Where(d => d.Weight == owner.FilterWeight).ToList();
             }
             return View(matches);
+          
         }
+        public ActionResult Likes(int? idLikedDog, int? idOwnedDog)
+        {
+            var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
+            var likedDog = _context.Dogs.Find(idLikedDog);
+            var ownedDog = _context.Dogs.Find(idOwnedDog);
+            if (ownedDog.PotentialMatches == null)
+            {
+                ownedDog.PotentialMatches = likedDog.DogId;
+            }
+            else if (ownedDog.PotentialMatches2 == null)
+            {
+                ownedDog.PotentialMatches2 = likedDog.DogId;
+            }
+            else if (ownedDog.PotentialMatches3 == null)
+            {
+                ownedDog.PotentialMatches3 = likedDog.DogId;
+            }
+            else if (ownedDog.PotentialMatches4 == null)
+            {
+                ownedDog.PotentialMatches4 = likedDog.DogId;
+            }
+            else if (ownedDog.PotentialMatches5 == null)
+            {
+                ownedDog.PotentialMatches5 = likedDog.DogId;
+            }
+            else
+            {
+                Console.WriteLine();
+            }
+            return View("PotentialDogMatches");
+        } 
         public ActionResult EditFilters(int? id)
         {
             if (id == null)
