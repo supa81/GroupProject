@@ -34,6 +34,8 @@ namespace PawMates.Models
         public string? FilterBreed { get; set; }
         [Display(Name = "Filter Temperment")]
         public string? FilterTemperment { get; set; }
+        [Display(Name = "Filter Distance")]
+        public int? FilterDistance { get; set; }
         public double? OwnerLatitude { get; set; }
         public double? OwnerLongitude { get; set; }
 
