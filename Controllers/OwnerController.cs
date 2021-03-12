@@ -34,7 +34,7 @@ namespace PawMates.Controllers
             {
                  return RedirectToAction("Create");
             }
-            var ownersDogs = _context.Dogs.Where(d => d.OwnerId == owner.Id).ToList();
+            var ownersDogs = _context.Dogs.Where(d => d.Id == owner.Id).ToList();
             return View(ownersDogs);
 
         }
@@ -115,7 +115,7 @@ namespace PawMates.Controllers
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
             var ownerDog = _context.Dogs.Find(id);
-            var likedDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
+            var likedDogs = _context.Dogs.Where(d => d.Id != owner.Id).ToList();
             if (ownerDog.PotentialMatches != null )
             {
                 likedDogs = likedDogs.Where(d => d.DogId == ownerDog.PotentialMatches).ToList();
@@ -148,7 +148,7 @@ namespace PawMates.Controllers
             {
                 return RedirectToAction("Create");
             }
-            var otherDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
+            var otherDogs = _context.Dogs.Where(d => d.Id != owner.Id).ToList();
             List<Dog> matches = new List<Dog>();
             foreach (var dog in otherDogs)
             {
@@ -385,7 +385,7 @@ namespace PawMates.Controllers
                     ownerToEdit.OwnerLatitude = owner.OwnerLatitude;
                     ownerToEdit.OwnerLongitude = owner.OwnerLongitude;
                     _context.Update(ownerToEdit);
-                    var ownersDogs = _context.Dogs.Where(d => d.OwnerId == ownerToEdit.Id).ToList();
+                    var ownersDogs = _context.Dogs.Where(d => d.Id == ownerToEdit.Id).ToList();
                     foreach (var dog in ownersDogs)
                     {
                         dog.OwnerLat = ownerToEdit.OwnerLatitude;
@@ -443,7 +443,14 @@ namespace PawMates.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _context.Update(dog);
+                    var dogToEdit = _context.Dogs.Find(id);
+                    dogToEdit.Age = dog.Age;
+                    dogToEdit.Bio = dog.Bio;
+                    dogToEdit.Breed = dog.Breed;
+                    dogToEdit.Gender = dog.Gender;
+                    dogToEdit.Name = dog.Name;
+                    dogToEdit.Temperment = dog.Temperment;
+                    _context.Update(dogToEdit);
                     _context.SaveChanges();
                     return RedirectToAction("DogList", "Owner");
                 }

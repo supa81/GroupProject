@@ -46,7 +46,7 @@ namespace PawMates.Controllers
             var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
-            dog.OwnerId = owner.Id;
+            dog.Id = owner.Id;
             dog.ZipCode = owner.ZipCode;
             dog.OwnerLat = owner.OwnerLatitude;
             dog.OwnerLng = owner.OwnerLongitude;
