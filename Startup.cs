@@ -45,6 +45,7 @@ namespace PawMates
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddTransient<GeocodingService>();
+            services.AddTransient<DistanceMatrixService>();
 
         }
 

@@ -17,10 +17,12 @@ namespace PawMates.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly GeocodingService _geocodingService;
-        public OwnerController(ApplicationDbContext context, GeocodingService geocodingService)
+        private readonly DistanceMatrixService _distanceMatrixService;
+        public OwnerController(ApplicationDbContext context, GeocodingService geocodingService, DistanceMatrixService distanceMatrixService)
         {
             _context = context;
             _geocodingService = geocodingService;
+            _distanceMatrixService = distanceMatrixService;
         }
         // GET: OwnerController
         public IActionResult DogList()
@@ -106,7 +108,7 @@ namespace PawMates.Controllers
         //    var weightFilter = matches.Where(d => d.Weight >= input).ToList();
         //    return View(weightFilter);
         //}
-        public ActionResult PotentialDogMatches()
+        public async Task<IActionResult> PotentialDogMatches()
         {
             var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -116,7 +118,15 @@ namespace PawMates.Controllers
                 return RedirectToAction("Create");
             }
             var otherDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
-            var matches = otherDogs.Where(d => d.ZipCode == owner.ZipCode).ToList();
+            List<Dog> matches = new List<Dog>();
+            foreach (var dog in otherDogs)
+            {
+                var dogDistance = await _distanceMatrixService.GetDistanceInMeters(owner, dog);
+                if (dogDistance < owner.FilterDistance)
+                {
+                    matches.Add(dog);
+                }
+            }
             if(owner.FilterGender != null)
             {
                 matches = matches.Where(d => d.Gender == owner.FilterGender).ToList();
@@ -251,6 +261,7 @@ namespace PawMates.Controllers
                 owner.IdentityUserId = userId;
 
                 var ownerWithLatitudeLongitude = await _geocodingService.GetGeocoding(owner);
+                ownerWithLatitudeLongitude.FilterDistance = 10;
                 _context.Add(ownerWithLatitudeLongitude);
                 _context.SaveChanges();
                 return RedirectToAction("DogList");
