@@ -20,6 +20,8 @@ namespace PawMates.Models
         public string Bio { get; set; }
         public string PictureUrl { get; set; }
         public string ZipCode { get; set; }
+        public double? OwnerLat { get; set; }
+        public double? OwnerLng { get; set; }
         [Display(Name = "Potential Match #1")]
         public int? PotentialMatches { get; set; }
         [Display(Name = "Potential Match #2")]

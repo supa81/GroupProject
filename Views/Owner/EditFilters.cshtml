@@ -4,9 +4,9 @@
     ViewData["Title"] = "EditFilters";
 }
 
-<h1>EditFilters</h1>
+<h1>Narrow a match for your dog</h1>
 
-<h4>Owner</h4>
+<h4>Enter information in one or more fields to narrow your search for the paw-fect match for your canine!</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -37,6 +37,18 @@
                 <label asp-for="FilterTemperment" class="control-label"></label>
                 <input asp-for="FilterTemperment" class="form-control" />
                 <span asp-validation-for="FilterTemperment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FilterDistance" class="control-label"></label>
+                <select class="form-control" id="FilterDistance" name="FilterDistance">
+                    <option value=10>Within 10 miles</option>
+                    <option value=20>Within 20 miles</option>
+                    <option value=30>Within 30 miles</option>
+                    <option value=40>Within 40 miles</option>
+                    <option value=50>Within 50 miles</option>
+                    <option value=1000000>50+ miles</option>
+                </select>
+                <span asp-validation-for="FilterDistance" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

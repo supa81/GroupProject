@@ -17,10 +17,12 @@ namespace PawMates.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly GeocodingService _geocodingService;
-        public OwnerController(ApplicationDbContext context, GeocodingService geocodingService)
+        private readonly DistanceMatrixService _distanceMatrixService;
+        public OwnerController(ApplicationDbContext context, GeocodingService geocodingService, DistanceMatrixService distanceMatrixService)
         {
             _context = context;
             _geocodingService = geocodingService;
+            _distanceMatrixService = distanceMatrixService;
         }
         // GET: OwnerController
         public IActionResult DogList()
@@ -36,6 +38,77 @@ namespace PawMates.Controllers
             return View(ownersDogs);
 
         }
+        //public ActionResult PotentialDogMatches()
+        //{
+        //    var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
+        //    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
+        //    if (owner == null)
+        //    {
+        //        return RedirectToAction("Create");
+        //    }
+        //    var otherDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
+        //    var matches = otherDogs.Where(d => d.ZipCode == owner.ZipCode).ToList();
+        //    return View(matches);
+        //}
+        //public ActionResult FilterByAgeGreaterThan(int input)
+        //{
+        //    var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
+        //    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
+        //    if (owner == null)
+        //    {
+        //        return RedirectToAction("Create");
+        //    }
+        //    var otherDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
+        //    var matches = otherDogs.Where(d => d.ZipCode == owner.ZipCode).ToList();
+        //    var ageFilter = matches.Where(d => d.Age >= input).ToList();
+        //    return View(ageFilter);
+        //}
+        //public ActionResult FilterByAgeLessThan(int input)
+        //{
+        //    var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
+        //    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
+        //    if (owner == null)
+        //    {
+        //        return RedirectToAction("Create");
+        //    }
+        //    var otherDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
+        //    var matches = otherDogs.Where(d => d.ZipCode == owner.ZipCode).ToList();
+        //    var ageFilter = matches.Where(d => d.Age <= input).ToList();
+        //    return View(ageFilter);
+        //}
+        //public ActionResult FilterByWeightLessThan(int input)
+        //{
+        //    var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
+        //    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
+        //    if (owner == null)
+        //    {
+        //        return RedirectToAction("Create");
+        //    }
+        //    var otherDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
+        //    var matches = otherDogs.Where(d => d.ZipCode == owner.ZipCode).ToList();
+        //    var weightFilter = matches.Where(d => d.Weight <= input).ToList();
+        //    return View(weightFilter);
+        //}
+
+        //public ActionResult FilterByWeightGreaterThan(int input)
+        //{
+        //    var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
+        //    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
+        //    if (owner == null)
+        //    {
+        //        return RedirectToAction("Create");
+        //    }
+        //    var otherDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
+        //    var matches = otherDogs.Where(d => d.ZipCode == owner.ZipCode).ToList();
+        //    var weightFilter = matches.Where(d => d.Weight >= input).ToList();
+        //    return View(weightFilter);
+        //}
+        public async Task<IActionResult> PotentialDogMatches()
         public IActionResult YourLikedDogs(int? id)
         {
             var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
@@ -76,7 +149,15 @@ namespace PawMates.Controllers
                 return RedirectToAction("Create");
             }
             var otherDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
-            var matches = otherDogs.Where(d => d.ZipCode == owner.ZipCode).ToList();
+            List<Dog> matches = new List<Dog>();
+            foreach (var dog in otherDogs)
+            {
+                var dogDistance = await _distanceMatrixService.GetDistanceInMeters(owner, dog);
+                if (dogDistance < owner.FilterDistance)
+                {
+                    matches.Add(dog);
+                }
+            }
             if(owner.FilterGender != null)
             {
                 matches = matches.Where(d => d.Gender == owner.FilterGender).ToList();
@@ -169,6 +250,7 @@ namespace PawMates.Controllers
                     ownerToEdit.FilterGender = owner.FilterGender;
                     ownerToEdit.FilterTemperment = owner.FilterTemperment;
                     ownerToEdit.FilterWeight = owner.FilterWeight;
+                    ownerToEdit.FilterDistance = owner.FilterDistance;
                     _context.Update(ownerToEdit);
                     _context.SaveChanges();
 
@@ -244,6 +326,7 @@ namespace PawMates.Controllers
                 owner.IdentityUserId = userId;
 
                 var ownerWithLatitudeLongitude = await _geocodingService.GetGeocoding(owner);
+                ownerWithLatitudeLongitude.FilterDistance = 10;
                 _context.Add(ownerWithLatitudeLongitude);
                 _context.SaveChanges();
                 return RedirectToAction("DogList");
@@ -305,6 +388,8 @@ namespace PawMates.Controllers
                     var ownersDogs = _context.Dogs.Where(d => d.OwnerId == ownerToEdit.Id).ToList();
                     foreach (var dog in ownersDogs)
                     {
+                        dog.OwnerLat = ownerToEdit.OwnerLatitude;
+                        dog.OwnerLng = ownerToEdit.OwnerLatitude;
                         dog.ZipCode = ownerToEdit.ZipCode;
                         _context.Update(dog);
                     }
