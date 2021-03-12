@@ -85,7 +85,7 @@ body {
 }
 
 a {
-    color: #1bac91;
+    color:#eea824;
     text-decoration: none;
 }
 
@@ -95,7 +95,7 @@ a {
     }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: "Raleway", sans-serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif, 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif, sans-serif;
 }
 
 /*--------------------------------------------------------------

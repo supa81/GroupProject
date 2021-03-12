@@ -42,7 +42,7 @@ namespace PawMates
             {
                 config.Filters.Add(typeof(GlobalRouting));
             });
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.AddTransient<GeocodingService>();
 
