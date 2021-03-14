@@ -1,12 +1,13 @@
 ﻿@model PawMates.Models.Dog
 
+
 @{
     ViewData["Title"] = "EditDog";
 }
 
-<h1>Edit Your Dog</h1>
+<h1> @Html.DisplayFor(model => model.Name)</h1>
 
-<h4>Make any changes to your dog's information here!</h4>
+<h4>Make any changes to @Html.DisplayFor(model => model.Name) here!</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -43,6 +44,7 @@
                 <input asp-for="Temperment" class="form-control" />
                 <span asp-validation-for="Temperment" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
