@@ -82,6 +82,9 @@ body {*/
 body {
     font-family: "Open Sans", sans-serif;
     color: #444444;
+   
+    
+
 }
 
 
@@ -94,8 +97,7 @@ a {
     a:hover {
         color: #22d8b6;
         text-decoration: none;
-        background-color: rgb(240, 209, 37);
-    
+        background-color: rgb(211,211,211); /*grey*/
     }
 
 h1, h2, h3, h4, h5, h6 {
