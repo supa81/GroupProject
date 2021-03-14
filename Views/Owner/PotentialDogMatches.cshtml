@@ -54,6 +54,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Temperment)
             </td>
+            <td>
+                <a asp-action="PotentialDogDetails" asp-route-id="@item.DogId">Dog Details</a>
+            </td>
         </tr>
 }
     </tbody>
