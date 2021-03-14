@@ -4,7 +4,7 @@
     ViewData["Title"] = "FilterDetails";
 }
 
-<h1>FilterDetails</h1>
+<h1>Filter Details</h1>
 
 <div>
     <h4>Owner</h4>
@@ -65,7 +65,7 @@
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
                 center: { lat: @Model.OwnerLatitude, lng: @Model.OwnerLongitude},
-                zoom: 8
+                zoom: 10
             });
             marker = new google.maps.Marker({
                 position: { lat: @Model.OwnerLatitude, lng: @Model.OwnerLongitude},
