@@ -115,26 +115,31 @@ namespace PawMates.Controllers
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
             var ownerDog = _context.Dogs.Find(id);
-            var likedDogs = _context.Dogs.Where(d => d.Id != owner.Id).ToList();
+            List<Dog> likedDogs = new List<Dog>();
             if (ownerDog.PotentialMatches != null )
             {
-                likedDogs = likedDogs.Where(d => d.DogId == ownerDog.PotentialMatches).ToList();
+                var dogMatch1 = _context.Dogs.Find(ownerDog.PotentialMatches);
+                likedDogs.Add(dogMatch1);
             }
             if (ownerDog.PotentialMatches2 != null)
             {
-                likedDogs = likedDogs.Where(d => d.DogId == ownerDog.PotentialMatches2).ToList();
+                var dogMatch2 = _context.Dogs.Find(ownerDog.PotentialMatches);
+                likedDogs.Add(dogMatch2);
             }
             if (ownerDog.PotentialMatches3 != null)
             {
-                likedDogs = likedDogs.Where(d => d.DogId == ownerDog.PotentialMatches3).ToList();
+                var dogMatch3 = _context.Dogs.Find(ownerDog.PotentialMatches);
+                likedDogs.Add(dogMatch3);
             }
             if (ownerDog.PotentialMatches4 != null)
             {
-               likedDogs = likedDogs.Where(d => d.DogId == ownerDog.PotentialMatches4).ToList();
+                var dogMatch4 = _context.Dogs.Find(ownerDog.PotentialMatches);
+                likedDogs.Add(dogMatch4);
             }
             if (ownerDog.PotentialMatches5 != null)
             {
-                likedDogs = likedDogs.Where(d => d.DogId == ownerDog.PotentialMatches5).ToList();
+                var dogMatch5 = _context.Dogs.Find(ownerDog.PotentialMatches);
+                likedDogs.Add(dogMatch5);
             }
             return View(likedDogs);
         }
@@ -375,7 +380,6 @@ namespace PawMates.Controllers
             {
                 try
                 {
-                    await _geocodingService.GetGeocoding(owner);
                     Owner ownerToEdit = _context.Owners.Find(id);
                     ownerToEdit.FirstName = owner.FirstName;
                     ownerToEdit.LastName = owner.LastName;
@@ -384,6 +388,7 @@ namespace PawMates.Controllers
                     ownerToEdit.PictureURL = owner.PictureURL;
                     ownerToEdit.OwnerLatitude = owner.OwnerLatitude;
                     ownerToEdit.OwnerLongitude = owner.OwnerLongitude;
+                    await _geocodingService.GetGeocoding(ownerToEdit);
                     _context.Update(ownerToEdit);
                     var ownersDogs = _context.Dogs.Where(d => d.Id == ownerToEdit.Id).ToList();
                     foreach (var dog in ownersDogs)
