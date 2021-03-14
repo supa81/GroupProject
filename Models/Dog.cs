@@ -34,7 +34,7 @@ namespace PawMates.Models
         public int? PotentialMatches5 { get; set; }
 
         [ForeignKey("OwnerId")]
-        public int OwnerId { get; set; }
+        public int Id { get; set; }
         public Owner Owner { get; set; }
     }
 }

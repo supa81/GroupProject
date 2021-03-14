@@ -29,7 +29,7 @@ namespace PawMates.Models
         [Display(Name = "Filter Weight")]
         public int? FilterWeight { get; set; }
         [Display(Name = "Filter Gender")]
-        public string FilterGender { get; set; }
+        public string? FilterGender { get; set; }
         [Display(Name = "Filter Breed")]
         public string? FilterBreed { get; set; }
         [Display(Name = "Filter Temperment")]

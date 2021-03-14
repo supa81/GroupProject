@@ -34,7 +34,7 @@ namespace PawMates.Controllers
             {
                  return RedirectToAction("Create");
             }
-            var ownersDogs = _context.Dogs.Where(d => d.OwnerId == owner.Id).ToList();
+            var ownersDogs = _context.Dogs.Where(d => d.Id == owner.Id).ToList();
             return View(ownersDogs);
 
         }
@@ -108,37 +108,60 @@ namespace PawMates.Controllers
         //    var weightFilter = matches.Where(d => d.Weight >= input).ToList();
         //    return View(weightFilter);
         //}
+        public IActionResult SeeOwnersDogs(int id)
+        {
+            var owner = _context.Owners.Find(id);
+            var ownersDogs = _context.Dogs.Where(d => d.Id == owner.Id).ToList();
+            return View(ownersDogs);
 
+        }
         public IActionResult YourLikedDogs(int? id)
         {
             var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
             var ownerDog = _context.Dogs.Find(id);
-            var likedDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
-            if (ownerDog.PotentialMatches != null )
+            List<Dog> likedDogs = new List<Dog>();
+            if (ownerDog.PotentialMatches != null)
             {
-                likedDogs = likedDogs.Where(d => d.DogId == ownerDog.PotentialMatches).ToList();
+                var dogMatch1 = _context.Dogs.Find(ownerDog.PotentialMatches);
+                likedDogs.Add(dogMatch1);
             }
             if (ownerDog.PotentialMatches2 != null)
             {
-                likedDogs = likedDogs.Where(d => d.DogId == ownerDog.PotentialMatches2).ToList();
+                var dogMatch2 = _context.Dogs.Find(ownerDog.PotentialMatches2);
+                likedDogs.Add(dogMatch2);
             }
             if (ownerDog.PotentialMatches3 != null)
             {
-                likedDogs = likedDogs.Where(d => d.DogId == ownerDog.PotentialMatches3).ToList();
+                var dogMatch3 = _context.Dogs.Find(ownerDog.PotentialMatches3);
+                likedDogs.Add(dogMatch3);
             }
             if (ownerDog.PotentialMatches4 != null)
             {
-               likedDogs = likedDogs.Where(d => d.DogId == ownerDog.PotentialMatches4).ToList();
+                var dogMatch4 = _context.Dogs.Find(ownerDog.PotentialMatches4);
+                likedDogs.Add(dogMatch4);
             }
             if (ownerDog.PotentialMatches5 != null)
             {
-                likedDogs = likedDogs.Where(d => d.DogId == ownerDog.PotentialMatches5).ToList();
+                var dogMatch5 = _context.Dogs.Find(ownerDog.PotentialMatches5);
+                likedDogs.Add(dogMatch5);
             }
             return View(likedDogs);
         }
-
+        public IActionResult AddDogToLikes(int id)
+        {
+            var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
+            var ownersDogs = _context.Dogs.Where(d => d.Id == owner.Id).ToList();
+            foreach (var dog in ownersDogs)
+            {
+                Likes(id, dog.DogId);
+            }
+            _context.SaveChanges();
+            return RedirectToAction("PotentialDogMatches");
+        }
         public async Task<IActionResult> PotentialDogMatches()
         {
             var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
@@ -148,7 +171,7 @@ namespace PawMates.Controllers
             {
                 return RedirectToAction("Create");
             }
-            var otherDogs = _context.Dogs.Where(d => d.OwnerId != owner.Id).ToList();
+            var otherDogs = _context.Dogs.Where(d => d.Id != owner.Id).ToList();
             List<Dog> matches = new List<Dog>();
             foreach (var dog in otherDogs)
             {
@@ -181,39 +204,78 @@ namespace PawMates.Controllers
             return View(matches);
           
         }
-        public ActionResult Likes(int? idLikedDog, int? idOwnedDog)
+        public void Likes(int? idLikedDog, int? idOwnedDog)
+        {
+            var likedDog = _context.Dogs.Find(idLikedDog);
+            var ownedDog = _context.Dogs.Find(idOwnedDog);
+            while(ownedDog.PotentialMatches != idLikedDog && ownedDog.PotentialMatches2 != idLikedDog && ownedDog.PotentialMatches3 != idLikedDog && ownedDog.PotentialMatches4 != idLikedDog && ownedDog.PotentialMatches5 != idLikedDog)
+            {
+                if (ownedDog.PotentialMatches == null && ownedDog.PotentialMatches != idLikedDog)
+                {
+                    ownedDog.PotentialMatches = likedDog.DogId;
+                }
+                else if (ownedDog.PotentialMatches2 == null && ownedDog.PotentialMatches2 != idLikedDog)
+                {
+                    ownedDog.PotentialMatches2 = likedDog.DogId;
+                }
+                else if (ownedDog.PotentialMatches3 == null && ownedDog.PotentialMatches3 != idLikedDog)
+                {
+                    ownedDog.PotentialMatches3 = likedDog.DogId;
+                }
+                else if (ownedDog.PotentialMatches4 == null && ownedDog.PotentialMatches4 != idLikedDog)
+                {
+                    ownedDog.PotentialMatches4 = likedDog.DogId;
+                }
+                else if (ownedDog.PotentialMatches5 == null && ownedDog.PotentialMatches5 != idLikedDog)
+                {
+                    ownedDog.PotentialMatches5 = likedDog.DogId;
+                }
+                else
+                {
+                    Console.WriteLine();
+                }
+            }
+            
+        }
+        
+        public ActionResult RemoveDogFromLikes(int id)
         {
             var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var owner = _context.Owners.Where(o => o.IdentityUserId == userId).FirstOrDefault();
-            var likedDog = _context.Dogs.Find(idLikedDog);
+            var ownersDogs = _context.Dogs.Where(d => d.Id == owner.Id).ToList();
+            foreach (var dog in ownersDogs)
+            {
+                RemoveFromLikes(id, dog.DogId);
+            }
+            _context.SaveChanges();
+            return RedirectToAction("PotentialDogMatches");
+        }
+        public void RemoveFromLikes(int? idRemoveDog, int? idOwnedDog)
+        {
             var ownedDog = _context.Dogs.Find(idOwnedDog);
-            if (ownedDog.PotentialMatches == null)
+            if (ownedDog.PotentialMatches == idRemoveDog)
             {
-                ownedDog.PotentialMatches = likedDog.DogId;
+                ownedDog.PotentialMatches = null;
             }
-            else if (ownedDog.PotentialMatches2 == null)
+            else if (ownedDog.PotentialMatches2 == idRemoveDog)
             {
-                ownedDog.PotentialMatches2 = likedDog.DogId;
+                ownedDog.PotentialMatches2 = null;
             }
-            else if (ownedDog.PotentialMatches3 == null)
+            else if (ownedDog.PotentialMatches3 == idRemoveDog)
             {
-                ownedDog.PotentialMatches3 = likedDog.DogId;
+                ownedDog.PotentialMatches3 = null;
             }
-            else if (ownedDog.PotentialMatches4 == null)
+            else if (ownedDog.PotentialMatches4 == idRemoveDog)
             {
-                ownedDog.PotentialMatches4 = likedDog.DogId;
+                ownedDog.PotentialMatches4 = null;
             }
-            else if (ownedDog.PotentialMatches5 == null)
+            else if (ownedDog.PotentialMatches5 == idRemoveDog)
             {
-                ownedDog.PotentialMatches5 = likedDog.DogId;
+                ownedDog.PotentialMatches5 = null;
             }
-            else
-            {
-                Console.WriteLine();
-            }
-            return View("PotentialDogMatches");
-        } 
+
+        }
         public ActionResult EditFilters(int? id)
         {
             if (id == null)
@@ -247,8 +309,18 @@ namespace PawMates.Controllers
                     Owner ownerToEdit = _context.Owners.Find(id);
                     ownerToEdit.FilterAge = owner.FilterAge;
                     ownerToEdit.FilterBreed = owner.FilterBreed;
-                    ownerToEdit.FilterGender = owner.FilterGender;
-                    ownerToEdit.FilterTemperment = owner.FilterTemperment;
+                    if (owner.FilterGender != "None")
+                    {
+                        ownerToEdit.FilterGender = owner.FilterGender;
+                    }
+                    if(owner.FilterTemperment == "None")
+                    {
+                        ownerToEdit.FilterTemperment = null;
+                    }
+                    if(owner.FilterTemperment != "None")
+                    {
+                        ownerToEdit.FilterTemperment = owner.FilterTemperment;
+                    }
                     ownerToEdit.FilterWeight = owner.FilterWeight;
                     ownerToEdit.FilterDistance = owner.FilterDistance;
                     _context.Update(ownerToEdit);
@@ -307,7 +379,24 @@ namespace PawMates.Controllers
             }
             return View(dog);
         }
-
+        public ActionResult PotentialDogDetails(int? id)
+        {
+            var dog = _context.Dogs.Find(id);
+            if (dog == null)
+            {
+                return NotFound();
+            }
+            return View(dog);
+        }
+        public ActionResult PotentialDogMatchOwner(int? id)
+        {
+            var owner = _context.Owners.Find(id);
+            if (owner == null)
+            {
+                return NotFound();
+            }
+            return View(owner);
+        }
         // GET: OwnerController/Create
         public ActionResult Create()
         {
@@ -375,7 +464,6 @@ namespace PawMates.Controllers
             {
                 try
                 {
-                    await _geocodingService.GetGeocoding(owner);
                     Owner ownerToEdit = _context.Owners.Find(id);
                     ownerToEdit.FirstName = owner.FirstName;
                     ownerToEdit.LastName = owner.LastName;
@@ -384,8 +472,9 @@ namespace PawMates.Controllers
                     ownerToEdit.PictureURL = owner.PictureURL;
                     ownerToEdit.OwnerLatitude = owner.OwnerLatitude;
                     ownerToEdit.OwnerLongitude = owner.OwnerLongitude;
+                    await _geocodingService.GetGeocoding(ownerToEdit);
                     _context.Update(ownerToEdit);
-                    var ownersDogs = _context.Dogs.Where(d => d.OwnerId == ownerToEdit.Id).ToList();
+                    var ownersDogs = _context.Dogs.Where(d => d.Id == ownerToEdit.Id).ToList();
                     foreach (var dog in ownersDogs)
                     {
                         dog.OwnerLat = ownerToEdit.OwnerLatitude;
@@ -443,7 +532,14 @@ namespace PawMates.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _context.Update(dog);
+                    var dogToEdit = _context.Dogs.Find(id);
+                    dogToEdit.Age = dog.Age;
+                    dogToEdit.Bio = dog.Bio;
+                    dogToEdit.Breed = dog.Breed;
+                    dogToEdit.Gender = dog.Gender;
+                    dogToEdit.Name = dog.Name;
+                    dogToEdit.Temperment = dog.Temperment;
+                    _context.Update(dogToEdit);
                     _context.SaveChanges();
                     return RedirectToAction("DogList", "Owner");
                 }
