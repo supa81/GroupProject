@@ -253,7 +253,10 @@ namespace PawMates.Controllers
                     ownerToEdit.FilterAge = owner.FilterAge;
                     ownerToEdit.FilterBreed = owner.FilterBreed;
                     ownerToEdit.FilterGender = owner.FilterGender;
-                    ownerToEdit.FilterTemperment = owner.FilterTemperment;
+                    if(owner.FilterTemperment != "None")
+                    {
+                        ownerToEdit.FilterTemperment = owner.FilterTemperment;
+                    }
                     ownerToEdit.FilterWeight = owner.FilterWeight;
                     ownerToEdit.FilterDistance = owner.FilterDistance;
                     _context.Update(ownerToEdit);

@@ -40,7 +40,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="Temperment" class="control-label"></label>
-                <input asp-for="Temperment" class="form-control" />
+                <select class="form-control" id="Temperment" name="Temperment">
+                    <option value="None">Select Temperament</option>
+                    <option value="Assertive">Assertive</option>
+                    <option value="Friendly">Friendly</option>
+                    <option value="Calm">Calm</option>
+                    <option value="Shy">Shy</option>
+                </select>
                 <span asp-validation-for="Temperment" class="text-danger"></span>
             </div>
             <div class="form-group">

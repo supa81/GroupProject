@@ -13,6 +13,8 @@
         <form asp-action="EditFilters">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="State" />
+            <input  type="hidden"asp-for="ZipCode" class="form-control" />
             <div class="form-group">
                 <label asp-for="FilterAge" class="control-label"></label>
                 <input asp-for="FilterAge" class="form-control" />
@@ -25,7 +27,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="FilterGender" class="control-label"></label>
-                <input asp-for="FilterGender" class="form-control" />
+                <select class="form-control" id="FilterGender" name="FilterGender">
+                    <option value="Female">Female</option>
+                    <option value="Male">Male</option>
+                </select>
                 <span asp-validation-for="FilterGender" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -35,7 +40,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="FilterTemperment" class="control-label"></label>
-                <input asp-for="FilterTemperment" class="form-control" />
+                <select class="form-control" id="FilterTemperment" name="FilterTemperment">
+                    <option value="None">Select Temperament</option>
+                    <option value="Assertive">Assertive</option>
+                    <option value="Friendly">Friendly</option>
+                    <option value="Calm">Calm</option>
+                    <option value="Shy">Shy</option>
+                </select>
                 <span asp-validation-for="FilterTemperment" class="text-danger"></span>
             </div>
             <div class="form-group">
