@@ -61,6 +61,11 @@
     </dl>
 </div>
 <div>
-    <a asp-action="AddDogToLikes"asp-route-id="@Model.DogId">Add Dog to Likes</a>
+    <a asp-action="PotentialDogMatchOwner" asp-route-id="@Model.Id">See Dog's Owner</a>
+</div>
+<div>
+    <a asp-action="AddDogToLikes" asp-route-id="@Model.DogId">Add Dog to Likes</a>
+</div>
+<div>
     <a asp-action="PotentialDogMatches">Back to Potential Matches</a>
 </div>

@@ -1,14 +1,16 @@
 ﻿@model IEnumerable<PawMates.Models.Dog>
 
 @{
-    ViewData["Title"] = "YourLikedDogs";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "SeeOwnersDogs";
 }
 
-<h1>Your Liked Dogs</h1>
+<h1>SeeOwnersDogs</h1>
 
 <p>
-    <a asp-action="DogList">Back to List</a>
+    <a asp-action="PotentialDogMatches">Potential Matches</a>
+</p>
+<p>
+    <a asp-action="DogList">Your Dogs</a>
 </p>
 <table class="table">
     <thead>
@@ -30,9 +32,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Temperment)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Bio)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PictureUrl)
@@ -62,13 +61,10 @@
                 @Html.DisplayFor(modelItem => item.Temperment)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Bio)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.PictureUrl)
             </td>
             <td>
-                <a asp-action="RemoveDogFromLikes" asp-route-id="@item.DogId">Remove This Dog From Likes</a>
+                <a asp-action="PotentialDogDetails" asp-route-id="@item.DogId">Details</a>
             </td>
         </tr>
 }

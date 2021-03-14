@@ -108,7 +108,13 @@ namespace PawMates.Controllers
         //    var weightFilter = matches.Where(d => d.Weight >= input).ToList();
         //    return View(weightFilter);
         //}
+        public IActionResult SeeOwnersDogs(int id)
+        {
+            var owner = _context.Owners.Find(id);
+            var ownersDogs = _context.Dogs.Where(d => d.Id == owner.Id).ToList();
+            return View(ownersDogs);
 
+        }
         public IActionResult YourLikedDogs(int? id)
         {
             var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
@@ -382,7 +388,15 @@ namespace PawMates.Controllers
             }
             return View(dog);
         }
-
+        public ActionResult PotentialDogMatchOwner(int? id)
+        {
+            var owner = _context.Owners.Find(id);
+            if (owner == null)
+            {
+                return NotFound();
+            }
+            return View(owner);
+        }
         // GET: OwnerController/Create
         public ActionResult Create()
         {
