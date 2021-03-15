@@ -144,10 +144,15 @@ namespace PawMates.Controllers
             
             return View(matchedOwners);
         }
-        //public IActionResult ConnectWithOwner( int? id)
-        //{
-
-        //}
+        public IActionResult ConnectWithOwner(int? id)
+        {
+            var owner = _context.Owners.Find(id);
+            if (owner == null)
+            {
+                return NotFound();
+            }
+            return View(owner);
+        }
         public IActionResult YourLikedDogs(int? id)
         {
             var applicationDbContext = _context.Owners.Include(o => o.IdentityUser);
@@ -358,6 +363,10 @@ namespace PawMates.Controllers
                     {
                         ownerToEdit.FilterTemperment = owner.FilterTemperment;
                     }
+                    if(owner.FilterTemperment == "None")
+                    {
+                        ownerToEdit.FilterTemperment = null;
+                    }
                     ownerToEdit.FilterWeight = owner.FilterWeight;
                     ownerToEdit.FilterDistance = owner.FilterDistance;
                     _context.Update(ownerToEdit);
@@ -391,7 +400,7 @@ namespace PawMates.Controllers
             {
                 return NotFound();
             }
-
+            ViewBag.APIKeys = APIKeys.GOOGLE_API_KEY;
             return View(owner);
         }
         // GET: OwnerController/Details/5

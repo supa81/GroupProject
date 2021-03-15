@@ -16,6 +16,7 @@ namespace PawMates.Models
         public string FirstName { get; set; }
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
+        public string EmailAddress { get; set; }
         [Required]
         public string State { get; set; }
         [Required]
