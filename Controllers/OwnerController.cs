@@ -582,10 +582,20 @@ namespace PawMates.Controllers
                     dogToEdit.Age = dog.Age;
                     dogToEdit.Bio = dog.Bio;
                     dogToEdit.Breed = dog.Breed;
-                    dogToEdit.Gender = dog.Gender;
+                    if(dog.Gender != "None")
+                    {
+                        dogToEdit.Gender = dog.Gender;
+                    }
                     dogToEdit.Weight = dog.Weight;
                     dogToEdit.Name = dog.Name;
-                    dogToEdit.Temperment = dog.Temperment;
+                    if (dog.Temperment != "None")
+                    {
+                        dogToEdit.Temperment = dog.Temperment;
+                    }
+                    if (dog.Temperment == "None")
+                    {
+                        dogToEdit.Temperment = null;
+                    }
                     _context.Update(dogToEdit);
                     _context.SaveChanges();
                     return RedirectToAction("DogList", "Owner");
