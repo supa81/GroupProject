@@ -38,6 +38,7 @@ namespace PawMates.Models
         public double? FilterDistance { get; set; }
         public double? OwnerLatitude { get; set; }
         public double? OwnerLongitude { get; set; }
+
        
 
 

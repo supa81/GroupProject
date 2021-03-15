@@ -574,6 +574,7 @@ namespace PawMates.Controllers
                     dogToEdit.Bio = dog.Bio;
                     dogToEdit.Breed = dog.Breed;
                     dogToEdit.Gender = dog.Gender;
+                    dogToEdit.Weight = dog.Weight;
                     dogToEdit.Name = dog.Name;
                     dogToEdit.Temperment = dog.Temperment;
                     _context.Update(dogToEdit);
