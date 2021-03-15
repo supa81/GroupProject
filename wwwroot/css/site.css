@@ -79,18 +79,19 @@ body {*/
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+html {
+    height: 100%;
+}
+
 body {
     font-family: "Open Sans", sans-serif;
     color: #444444;
-   
-    
-
+    background-color: #99CCFF;
+    /*background-image: url("~/Images/90612.png");*/
 }
 
-
-
 a {
-    color:#eea824;
+    color: #000;
     text-decoration: none;
 }
 
@@ -99,6 +100,8 @@ a {
         text-decoration: none;
         background-color: rgb(211,211,211); /*grey*/
     }
+
+
 
 h1, h2, h3, h4, h5, h6 {
     font-family: Verdana, Geneva, Tahoma, sans-serif, 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif, sans-serif;
@@ -136,6 +139,9 @@ h1, h2, h3, h4, h5, h6 {
         visibility: visible;
         opacity: 1;
     }
+
+
+
 
 /*--------------------------------------------------------------
 # Disable aos animation delay on mobile devices
@@ -216,6 +222,7 @@ h1, h2, h3, h4, h5, h6 {
         padding: 12px 0;
         font-size: 14px;
         color: rgba(255, 255, 255, 0.8);
+        
         white-space: nowrap;
         transition: 0.3s;
         position: relative;
@@ -533,6 +540,20 @@ section {
     .section-title p {
         margin-bottom: 0;
     }
+
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+body, html {
+    height: 100%;
+}
+
+
 
 /*--------------------------------------------------------------
 # Breadcrumbs

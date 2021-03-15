@@ -3,9 +3,9 @@
 }
 
 @*<div class="text-center">
-    <h1 class="display-4">Welcome to PawMates!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>*@
+        <h1 class="display-4">Welcome to PawMates!</h1>
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    </div>*@
 
 <div class="jumbotron">
     @*<h1 class="display-3">Hello, world!</h1>*@
@@ -15,7 +15,19 @@
     <p>Because we know the doggie dating scene can be "ruff".</p>
     <p class="lead">
         @*<a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>*@
-        <a class="btn btn-primary btn-lg" asp-area="Identity" asp-page="/Account/Register">Learn More</a>
+        @*<a class="btn btn-primary btn-lg" asp-area="Identity" asp-page="/Account/Register">Learn More</a>*@
+        <a class="btn btn-primary btn-lg" asp-area="Identity" asp-page="/Account/Login">Log In</a>
     </p>
 </div>
 
+<div class="picture">
+    @*<img src="~/Images/dogs.jpg" alt="dogs" class="center" />*@
+    <img src="~/Images/Boston-Terrier-puppy-dogs-13518448-1600-1200.jpg" alt="dogs" class="center" />
+</div>
+
+<style>
+body{
+    background-image: url("~/Images/dogs.jpg");
+}
+
+</style>

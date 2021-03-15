@@ -4,10 +4,10 @@
     ViewData["Title"] = "PotentialDogMatchOwner";
 }
 
-<h1>PotentialDogMatchOwner</h1>
+<h1>You have a potential match for your dog with </h1>
 
 <div>
-    <h4>Owner</h4>
+    <h4>@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">

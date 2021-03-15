@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Images\Boston-Terrier-puppy-dogs-13518448-1600-1200.jpg" />
+    <Content Remove="wwwroot\Images\Boxer-Puppy-Image.jpg" />
+    <Content Remove="wwwroot\Images\chow-chow-puppy.jpg" />
+    <Content Remove="wwwroot\Images\dogs.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.SignalR" Version="2.4.1" />
     <PackageReference Include="Microsoft.AspNet.SignalR.Core" Version="2.4.1" />
     <PackageReference Include="Microsoft.AspNet.SignalR.JS" Version="2.4.1" />
@@ -18,6 +25,13 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.12" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\Boston-Terrier-puppy-dogs-13518448-1600-1200.jpg" />
+    <None Include="wwwroot\Images\Boxer-Puppy-Image.jpg" />
+    <None Include="wwwroot\Images\chow-chow-puppy.jpg" />
+    <None Include="wwwroot\Images\dogs.jpg" />
   </ItemGroup>
 
 </Project>
